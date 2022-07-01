@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 
 const app = express();
 
-// middleware - todo
+// middleware
+app.use(express.json());
 
 // routes - todo
 
