@@ -1,13 +1,15 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
+const usersRouter = require("./routes/users.route");
 
 const app = express();
 
 // middleware
 app.use(express.json());
 
-// routes - todo
+// routes
+app.use("/api/users", usersRouter);
 
 // DB connection
 mongoose
