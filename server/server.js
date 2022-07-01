@@ -15,11 +15,13 @@ app.use("/api/users", usersRouter);
 mongoose
   .connect(process.env.DB_URI)
   .then(() => {
-    // server listening
-    app.listen(process.env.PORT, () => {
-      console.log(`Connected to DB. Listening on port ${process.env.PORT}...`);
-    });
+    console.log("Connected to DB.");
   })
   .catch((error) => {
     console.log(error);
   });
+
+// server listening
+app.listen(process.env.PORT, () => {
+  console.log(`Server listening on port ${process.env.PORT}...`);
+});

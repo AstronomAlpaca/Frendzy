@@ -1,7 +1,7 @@
 const User = require("../models/user.model");
 
-const confirmWorking = () => {
-  console.log("working!");
+const confirmWorking = (req, res) => {
+  res.send("working!");
 };
 
 module.exports = {
