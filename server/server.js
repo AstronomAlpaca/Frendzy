@@ -11,6 +11,13 @@ app.use(express.json());
 // routes
 app.use("/api/users", usersRouter);
 
+// special middleware for catching non-existent routes.
+const unknownEndpoint = (req, res) => {
+  res.status(404).send({ error: "unknown endpoint" });
+};
+
+app.use(unknownEndpoint);
+
 // DB connection
 mongoose
   .connect(process.env.DB_URI)
@@ -22,6 +29,7 @@ mongoose
   });
 
 // server listening
-app.listen(process.env.PORT, () => {
-  console.log(`Server listening on port ${process.env.PORT}...`);
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}...`);
 });
