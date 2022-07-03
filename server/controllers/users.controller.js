@@ -1,5 +1,4 @@
 const bcrypt = require("bcrypt");
-const { response } = require("express");
 const User = require("../models/user.model");
 
 const createUser = async (req, res) => {
@@ -28,7 +27,7 @@ const createUser = async (req, res) => {
 
 const returnAllUsers = async (req, res) => {
   const users = await User.find({});
-  response.json(users);
+  res.json(users);
 };
 
 module.exports = {
