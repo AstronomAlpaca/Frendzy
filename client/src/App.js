@@ -55,7 +55,9 @@ const App = () => {
         loginForm()
       ) : (
         <div>
-          <p>ToDo: Dashboard component</p>
+          <p>
+            Hello, {user.first_name} {user.surname}!
+          </p>
         </div>
       )}
     </div>
