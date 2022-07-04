@@ -1,6 +1,15 @@
 /* eslint-disable no-unused-vars */
 const User = require("../models/user.model");
 const UserPost = require("../models/userPost.model");
+const jwt = require("jsonwebtoken");
+
+const getTokenFrom = (req) => {
+  const authorization = req.get("authorization");
+  if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+    return authorization.substring(7);
+  }
+  return null;
+};
 
 const returnAllUserPosts = async (req, res) => {
   const userPosts = await UserPost.find({}).populate("user", { email: 1 });
@@ -10,6 +19,13 @@ const returnAllUserPosts = async (req, res) => {
 
 const createUserPost = async (req, res, next) => {
   const body = req.body;
+  const token = getTokenFrom(req);
+  // The object decoded from the token contains the email and user id fields,
+  // which tells the server who made the request. See userLogin() for details
+  const decodedToken = jwt.verify(token, process.env.SECRET);
+  if (!decodedToken.id) {
+    return res.status(401).json({ error: "token missing or invalid" });
+  }
 
   const user = await User.findById(body.userId);
 
