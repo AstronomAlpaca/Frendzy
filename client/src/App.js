@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import loginService from "./services/login";
+import userPostService from "./services/userPosts";
 
 const App = () => {
   const [email, setEmail] = useState("");
@@ -11,6 +12,8 @@ const App = () => {
 
     try {
       const user = await loginService.login({ email, password });
+
+      userPostService.setToken(user.token);
       setUser(user);
       setEmail("");
       setPassword("");
