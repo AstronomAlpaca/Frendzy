@@ -55,7 +55,11 @@ const userLogin = async (req, res) => {
 };
 
 const returnAllUsers = async (req, res) => {
-  const users = await User.find({});
+  const users = await User.find({}).populate("userPosts", {
+    content: 1,
+    date: 1,
+  });
+
   res.json(users);
 };
 
