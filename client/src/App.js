@@ -1,16 +1,30 @@
 import React, { useState } from "react";
+import loginService from "./services/login";
 
 const App = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [user, setUser] = useState(null);
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
-    console.log("Logging in with", email, password);
+
+    try {
+      const user = await loginService.login({ email, password });
+      setUser(user);
+      setEmail("");
+      setPassword("");
+    } catch (exception) {
+      // setErrorMessage - todo
+      alert("Incorrect credentials");
+      setTimeout(() => {
+        //setErrorMessage(null) - todo
+      }, 5000);
+    }
   };
 
-  return (
-    <div>
+  const loginForm = () => {
+    return (
       <form onSubmit={handleLogin}>
         <div>
           Email
@@ -30,7 +44,20 @@ const App = () => {
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
+        <button type="submit">Login</button>
       </form>
+    );
+  };
+
+  return (
+    <div>
+      {user === null ? (
+        loginForm()
+      ) : (
+        <div>
+          <p>ToDo: Dashboard component</p>
+        </div>
+      )}
     </div>
   );
 };
