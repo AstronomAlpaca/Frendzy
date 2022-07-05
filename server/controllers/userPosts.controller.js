@@ -23,11 +23,11 @@ const createUserPost = async (req, res, next) => {
   // The object decoded from the token contains the email and user id fields,
   // which tells the server who made the request. See userLogin() for details
   const decodedToken = jwt.verify(token, process.env.SECRET);
-  if (!decodedToken.id) {
+  if (!decodedToken.id || !token) {
     return res.status(401).json({ error: "token missing or invalid" });
   }
 
-  const user = await User.findById(body.userId);
+  const user = await User.findById(decodedToken.id);
 
   const userPost = new UserPost({
     content: body.content,
