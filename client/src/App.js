@@ -98,6 +98,15 @@ const App = () => {
     );
   };
 
+  const userPostForm = () => {
+    return (
+      <form onSubmit={addUserPost}>
+        <input value={newUserPost} onChange={handleUserPostChange}></input>
+        <button type="submit">save</button>
+      </form>
+    );
+  };
+
   return (
     <div>
       {user === null ? (
@@ -107,8 +116,14 @@ const App = () => {
           <p>
             Hello, {user.first_name} {user.surname}!
           </p>
+          {userPostForm()}
         </div>
       )}
+      <div>
+        {userPosts.map((post) => (
+          <UserPost key={post.id} content={post.content}></UserPost>
+        ))}
+      </div>
     </div>
   );
 };
