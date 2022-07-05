@@ -1,11 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import loginService from "./services/login";
 import userPostService from "./services/userPosts";
 
 const App = () => {
+  const [userPosts, setUserPosts] = useState([]);
+  const [newUserPost, setNewUserPost] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    userPostService.getAll().then((initialUserPosts) => {
+      setUserPosts(initialUserPosts);
+    });
+  }, []);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -24,6 +32,24 @@ const App = () => {
         //setErrorMessage(null) - todo
       }, 5000);
     }
+  };
+
+  const addUserPost = (event) => {
+    event.preventDefault();
+    const userPostObject = {
+      content: newUserPost,
+      date: new Date().toISOString(),
+      id: userPosts.length + 1,
+    };
+
+    userPostService.create(userPostObject).then((returnedUserPost) => {
+      setUserPosts(userPosts.concat(returnedUserPost));
+      setNewUserPost("");
+    });
+  };
+
+  const handleUserPostChange = (event) => {
+    setNewUserPost(event.target.value);
   };
 
   const loginForm = () => {
