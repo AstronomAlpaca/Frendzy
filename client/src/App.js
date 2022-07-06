@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-
+import LoginForm from "./components/LoginForm/LoginForm";
+import UserPostForm from "./components/UserPostForm/UserPostForm";
 import UserPost from "./components/UserPost/UserPost";
 import loginService from "./services/login";
 import userPostService from "./services/userPosts";
@@ -72,51 +73,26 @@ const App = () => {
     setNewUserPost(event.target.value);
   };
 
-  const loginForm = () => {
-    return (
-      <form onSubmit={handleLogin}>
-        <div>
-          Email
-          <input
-            type="email"
-            value={email}
-            name="Email"
-            onChange={({ target }) => setEmail(target.value)}
-          />
-        </div>
-        <div>
-          Password
-          <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-    );
-  };
-
-  const userPostForm = () => {
-    return (
-      <form onSubmit={addUserPost}>
-        <input value={newUserPost} onChange={handleUserPostChange}></input>
-        <button type="submit">save</button>
-      </form>
-    );
-  };
-
   return (
     <div>
       {user === null ? (
-        loginForm()
+        <LoginForm
+          email={email}
+          password={password}
+          handleEmailChange={({ target }) => setEmail(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          handleSubmit={handleLogin}
+        ></LoginForm>
       ) : (
         <div>
           <p>
             Hello, {user.first_name} {user.surname}!
           </p>
-          {userPostForm()}
+          <UserPostForm
+            onSubmit={addUserPost}
+            value={newUserPost}
+            handleChange={handleUserPostChange}
+          ></UserPostForm>
         </div>
       )}
       <div>
