@@ -7,7 +7,6 @@ import userPostService from "./services/userPosts";
 
 const App = () => {
   const [userPosts, setUserPosts] = useState([]);
-  const [newUserPost, setNewUserPost] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
@@ -55,22 +54,10 @@ const App = () => {
     }
   };
 
-  const addUserPost = (event) => {
-    event.preventDefault();
-    const userPostObject = {
-      content: newUserPost,
-      date: new Date().toISOString(),
-      id: userPosts.length + 1,
-    };
-
-    userPostService.create(userPostObject).then((returnedUserPost) => {
+  const addUserPost = (postObject) => {
+    userPostService.create(postObject).then((returnedUserPost) => {
       setUserPosts(userPosts.concat(returnedUserPost));
-      setNewUserPost("");
     });
-  };
-
-  const handleUserPostChange = (event) => {
-    setNewUserPost(event.target.value);
   };
 
   return (
@@ -88,11 +75,7 @@ const App = () => {
           <p>
             Hello, {user.first_name} {user.surname}!
           </p>
-          <UserPostForm
-            onSubmit={addUserPost}
-            value={newUserPost}
-            handleChange={handleUserPostChange}
-          ></UserPostForm>
+          <UserPostForm createPost={addUserPost}></UserPostForm>
         </div>
       )}
       <div>
