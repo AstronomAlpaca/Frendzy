@@ -76,13 +76,13 @@ const App = () => {
             Hello, {user.first_name} {user.surname}!
           </p>
           <UserPostForm createPost={addUserPost}></UserPostForm>
+          <div>
+            {userPosts.map((post) => (
+              <UserPost key={post.id} content={post.content}></UserPost>
+            ))}
+          </div>
         </div>
       )}
-      <div>
-        {userPosts.map((post) => (
-          <UserPost key={post.id} content={post.content}></UserPost>
-        ))}
-      </div>
     </div>
   );
 };
