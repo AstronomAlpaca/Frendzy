@@ -3,12 +3,12 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user.model");
 
 const createUser = async (req, res) => {
-  const { first_name, surname, email, password } = req.body;
+  const { first_name, surname, username, password } = req.body;
 
-  const existingUser = await User.findOne({ email });
+  const existingUser = await User.findOne({ username });
   if (existingUser) {
     return res.status(400).json({
-      error: "email must be unique",
+      error: "username must be unique",
     });
   }
 
@@ -17,7 +17,7 @@ const createUser = async (req, res) => {
   const user = new User({
     first_name: first_name,
     surname: surname,
-    email: email,
+    username: username,
     password: passwordHash,
   });
 
@@ -27,20 +27,20 @@ const createUser = async (req, res) => {
 };
 
 const userLogin = async (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ username });
   const passwordCorrect =
     user === null ? false : await bcrypt.compare(password, user.password);
 
   if (!(user && passwordCorrect)) {
     return res.status(401).json({
-      error: "failed login attempt. check email and password",
+      error: "failed login attempt. check username and password",
     });
   }
 
   const userForToken = {
-    email: user.email,
+    username: user.username,
     id: user._id,
   };
 
@@ -50,7 +50,7 @@ const userLogin = async (req, res) => {
 
   res.status(200).send({
     token,
-    email: user.email,
+    username: user.username,
     first_name: user.first_name,
     surname: user.surname,
   });

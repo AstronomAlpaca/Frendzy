@@ -7,7 +7,7 @@ import userPostService from "./services/userPosts";
 
 const App = () => {
   const [userPosts, setUserPosts] = useState([]);
-  const [email, setEmail] = useState("");
+  const [username, setusername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
 
@@ -36,14 +36,14 @@ const App = () => {
     event.preventDefault();
 
     try {
-      const user = await loginService.login({ email, password });
+      const user = await loginService.login({ username, password });
 
       // Saving to localStorage will prevent the app from re-rendering
       // and losing login data
       window.localStorage.setItem("loggedAppUser", JSON.stringify(user));
       userPostService.setToken(user.token);
       setUser(user);
-      setEmail("");
+      setusername("");
       setPassword("");
     } catch (exception) {
       // setErrorMessage - todo
@@ -64,9 +64,9 @@ const App = () => {
     <div>
       {user === null ? (
         <LoginForm
-          email={email}
+          username={username}
           password={password}
-          handleEmailChange={({ target }) => setEmail(target.value)}
+          handleusernameChange={({ target }) => setusername(target.value)}
           handlePasswordChange={({ target }) => setPassword(target.value)}
           handleSubmit={handleLogin}
         ></LoginForm>

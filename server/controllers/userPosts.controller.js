@@ -12,7 +12,7 @@ const getTokenFrom = (req) => {
 };
 
 const returnAllUserPosts = async (req, res) => {
-  const userPosts = await UserPost.find({}).populate("user", { email: 1 });
+  const userPosts = await UserPost.find({}).populate("user", { username: 1 });
 
   res.json(userPosts);
 };
@@ -20,7 +20,7 @@ const returnAllUserPosts = async (req, res) => {
 const createUserPost = async (req, res, next) => {
   const body = req.body;
   const token = getTokenFrom(req);
-  // The object decoded from the token contains the email and user id fields,
+  // The object decoded from the token contains the username and user id fields,
   // which tells the server who made the request. See userLogin() for details
   const decodedToken = jwt.verify(token, process.env.SECRET);
   if (!decodedToken.id || !token) {

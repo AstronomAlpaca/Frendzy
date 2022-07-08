@@ -16,7 +16,7 @@ describe("when there is initially one user in the db", () => {
     const user = new User({
       first_name: "Example",
       surname: "User",
-      email: "user@example.com",
+      username: "user@example.com",
       password: passwordHash,
     });
 
@@ -29,7 +29,7 @@ describe("when there is initially one user in the db", () => {
     const newUser = {
       first_name: "Steven",
       surname: "Rockett",
-      email: "steven@mail.com",
+      username: "steven@mail.com",
       password: "example123",
     };
 
@@ -42,17 +42,17 @@ describe("when there is initially one user in the db", () => {
     const usersAtEnd = await helper.usersInDb();
     expect(usersAtEnd).toHaveLength(usersAtStart.length + 1);
 
-    const emails = usersAtEnd.map((u) => u.email);
-    expect(emails).toContain(newUser.email);
+    const usernames = usersAtEnd.map((u) => u.username);
+    expect(usernames).toContain(newUser.username);
   });
 
-  test("creation fails with proper status code and message if email is already taken", async () => {
+  test("creation fails with proper status code and message if username is already taken", async () => {
     const usersAtStart = await helper.usersInDb();
 
     const newUser = {
       first_name: "Example",
       surname: "User",
-      email: "user@example.com",
+      username: "user@example.com",
       password: "example123",
     };
 
@@ -62,7 +62,7 @@ describe("when there is initially one user in the db", () => {
       .expect(400)
       .expect("Content-Type", /application\/json/);
 
-    expect(result.body.error).toContain("email must be unique");
+    expect(result.body.error).toContain("username must be unique");
 
     const usersAtEnd = await helper.usersInDb();
     expect(usersAtEnd).toEqual(usersAtStart);
