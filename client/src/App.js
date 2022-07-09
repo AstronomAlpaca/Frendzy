@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
+import { Routes, Route, Link } from "react-router-dom";
 import LoginForm from "./components/LoginForm/LoginForm";
 import UserPostForm from "./components/UserPostForm/UserPostForm";
 import UserPost from "./components/UserPost/UserPost";
 import loginService from "./services/login";
 import userPostService from "./services/userPosts";
+
+import Dashboard from "./views/Dashboard/Dashboard";
+import LoginPage from "./views/LoginPage/LoginPage";
 
 const App = () => {
   const [userPosts, setUserPosts] = useState([]);
@@ -60,9 +64,16 @@ const App = () => {
     });
   };
 
+  const padding = {
+    padding: 5,
+  };
+
   return (
     <div>
       {user === null ? (
+        // <Routes>
+        //   <Route path="/" element={<LoginPage />}></Route>
+        // </Routes>
         <LoginForm
           username={username}
           password={password}
@@ -72,14 +83,30 @@ const App = () => {
         ></LoginForm>
       ) : (
         <div>
-          <p>
-            Hello, {user.first_name} {user.surname}!
-          </p>
-          <UserPostForm createPost={addUserPost}></UserPostForm>
+          <nav>
+            <Link style={padding} to="/">
+              Home
+            </Link>
+            {/* See Parameterized */}
+            <Link style={padding} to={`/${user.username}`}>
+              {user.first_name} {user.surname}
+            </Link>
+          </nav>
+
+          <Routes>
+            <Route path="/" element={<Dashboard />}></Route>
+          </Routes>
+
           <div>
-            {userPosts.map((post) => (
-              <UserPost key={post.id} content={post.content}></UserPost>
-            ))}
+            <p>
+              Hello, {user.first_name} {user.surname}!
+            </p>
+            <UserPostForm createPost={addUserPost}></UserPostForm>
+            <div>
+              {userPosts.map((post) => (
+                <UserPost key={post.id} content={post.content}></UserPost>
+              ))}
+            </div>
           </div>
         </div>
       )}
