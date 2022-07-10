@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user.model");
 
 const createUser = async (req, res) => {
-  const { first_name, surname, username, password } = req.body;
+  const { first_name, surname, username, email, password } = req.body;
 
   const existingUser = await User.findOne({ username });
   if (existingUser) {
@@ -18,6 +18,7 @@ const createUser = async (req, res) => {
     first_name: first_name,
     surname: surname,
     username: username,
+    email: email,
     password: passwordHash,
   });
 
