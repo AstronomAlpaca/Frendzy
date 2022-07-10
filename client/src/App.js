@@ -15,11 +15,12 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    userPostService.getAll().then((initialUserPosts) => {
-      setUserPosts(initialUserPosts);
-    });
-  }, []);
+  // This is not actually what's desired
+  // useEffect(() => {
+  //   userPostService.getAll().then((initialUserPosts) => {
+  //     setUserPosts(initialUserPosts);
+  //   });
+  // }, []);
   // Quick note: Empty array in second param ensures that the
   // effect is executed only when the component is rendered
   // for the FIRST TIME.
@@ -95,6 +96,7 @@ const App = () => {
 
           <Routes>
             <Route path="/" element={<Dashboard />}></Route>
+            <Route path={`/${user.username}`} element={<UserProfile />}></Route>
           </Routes>
 
           <div>
@@ -103,9 +105,10 @@ const App = () => {
             </p>
             <UserPostForm createPost={addUserPost}></UserPostForm>
             <div>
-              {userPosts.map((post) => (
+              {/* Not what's desired */}
+              {/* {userPosts.map((post) => (
                 <UserPost key={post.id} content={post.content}></UserPost>
-              ))}
+              ))} */}
             </div>
           </div>
         </div>
