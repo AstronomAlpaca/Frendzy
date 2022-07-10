@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import LoginForm from "./components/LoginForm/LoginForm";
-import UserPostForm from "./components/UserPostForm/UserPostForm";
-import UserPost from "./components/UserPost/UserPost";
+// import UserPostForm from "./components/UserPostForm/UserPostForm";
+// import UserPost from "./components/UserPost/UserPost";
 import loginService from "./services/login";
 import userPostService from "./services/userPosts";
 
 import Dashboard from "./views/Dashboard/Dashboard";
-import LoginPage from "./views/LoginPage/LoginPage";
+import UserProfile from "./views/UserProfile/UserProfile";
+// import LoginPage from "./views/LoginPage/LoginPage";
 
 const App = () => {
-  const [userPosts, setUserPosts] = useState([]);
+  // const [userPosts, setUserPosts] = useState([]);
   const [username, setusername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
@@ -59,11 +60,11 @@ const App = () => {
     }
   };
 
-  const addUserPost = (postObject) => {
-    userPostService.create(postObject).then((returnedUserPost) => {
-      setUserPosts(userPosts.concat(returnedUserPost));
-    });
-  };
+  // const addUserPost = (postObject) => {
+  //   userPostService.create(postObject).then((returnedUserPost) => {
+  //     setUserPosts(userPosts.concat(returnedUserPost));
+  //   });
+  // };
 
   const padding = {
     padding: 5,
@@ -88,7 +89,6 @@ const App = () => {
             <Link style={padding} to="/">
               Home
             </Link>
-            {/* See Parameterized */}
             <Link style={padding} to={`/${user.username}`}>
               {user.first_name} {user.surname}
             </Link>
@@ -96,21 +96,26 @@ const App = () => {
 
           <Routes>
             <Route path="/" element={<Dashboard />}></Route>
-            <Route path={`/${user.username}`} element={<UserProfile />}></Route>
+            <Route
+              path={`/${user.username}`}
+              element={<UserProfile user={user} />}
+            ></Route>
           </Routes>
 
+          {/* 
           <div>
             <p>
               Hello, {user.first_name} {user.surname}!
             </p>
             <UserPostForm createPost={addUserPost}></UserPostForm>
             <div>
-              {/* Not what's desired */}
-              {/* {userPosts.map((post) => (
+              
+               {userPosts.map((post) => (
                 <UserPost key={post.id} content={post.content}></UserPost>
-              ))} */}
+              ))} 
             </div>
-          </div>
+          </div> 
+          */}
         </div>
       )}
     </div>

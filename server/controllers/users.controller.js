@@ -51,6 +51,7 @@ const userLogin = async (req, res) => {
 
   res.status(200).send({
     token,
+    id: user.id,
     username: user.username,
     first_name: user.first_name,
     surname: user.surname,
