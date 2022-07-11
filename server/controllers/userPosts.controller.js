@@ -17,16 +17,13 @@ const returnAllUserPosts = async (req, res) => {
   res.json(userPosts);
 };
 
-// VERY BROKEN. To do
-// const returnAllPostsByUser = async (req, res) => {
-//   const userId = req.params.userId;
-//   const userPosts = UserPost.find({ user: userId });
+const returnAllPostsByUser = async (req, res) => {
+  // see the route for userPosts /:userId -> the name matters
+  const userId = req.params.userId;
+  const userPostsByUser = await UserPost.find({ user: userId });
 
-//   // CONVERTING CIRCULAR STRUCTOR TO JSON?!?!?!?!?!?!?!
-
-//   //res.json(userPosts);
-//   console.log(userPosts);
-// };
+  res.json(userPostsByUser);
+};
 
 const createUserPost = async (req, res, next) => {
   const body = req.body;
@@ -57,5 +54,5 @@ const createUserPost = async (req, res, next) => {
 module.exports = {
   createUserPost,
   returnAllUserPosts,
-  //returnAllPostsByUser,
+  returnAllPostsByUser,
 };

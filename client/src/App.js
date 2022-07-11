@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import LoginForm from "./components/LoginForm/LoginForm";
-// import UserPostForm from "./components/UserPostForm/UserPostForm";
+//import UserPostForm from "./components/UserPostForm/UserPostForm";
 // import UserPost from "./components/UserPost/UserPost";
 import loginService from "./services/login";
 import userPostService from "./services/userPosts";
@@ -96,6 +96,11 @@ const App = () => {
 
           <Routes>
             <Route path="/" element={<Dashboard />}></Route>
+            {/* 
+            This is wrong. It shouldn't be "user".
+            Think about what happens if you visit a friend's profile.
+            Maybe this should be a backend route?
+            */}
             <Route
               path={`/${user.username}`}
               element={<UserProfile user={user} />}
