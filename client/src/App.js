@@ -101,10 +101,11 @@ const App = () => {
             Think about what happens if you visit a friend's profile.
             Maybe this should be a backend route?
             */}
-            <Route
-              path={`/${user.username}`}
-              element={<UserProfile user={user} />}
-            ></Route>
+            {/* 
+            Max: "Can either be fetched from a backend API, a database or from
+            application-wide state which we manage with React Context or Redux"
+             */}
+            <Route path={`/:userName`} element={<UserProfile />}></Route>
           </Routes>
 
           {/* 

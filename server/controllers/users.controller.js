@@ -67,8 +67,16 @@ const returnAllUsers = async (req, res) => {
   res.json(users);
 };
 
+const returnSingleUser = async (req, res) => {
+  const userName = req.params.userName;
+  const theUser = await User.find({ username: userName });
+
+  res.json(theUser);
+};
+
 module.exports = {
   createUser,
   returnAllUsers,
+  returnSingleUser,
   userLogin,
 };

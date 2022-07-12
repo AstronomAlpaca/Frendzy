@@ -1,28 +1,23 @@
 import { useState, useEffect } from "react";
-import userPostService from "../../services/userPosts";
+import { useParams } from "react-router-dom";
+import userService from "../../services/users";
 
-import UserPost from "../../components/UserPost/UserPost";
-
-const UserProfile = (props) => {
-  const [postsByUser, setPostsByUser] = useState([]);
+const UserProfile = () => {
+  const [theUser, setTheUser] = useState("");
+  const params = useParams();
 
   useEffect(() => {
-    userPostService.getPostsByUser(props.user.id).then((initialPosts) => {
-      setPostsByUser(initialPosts);
+    userService.getUser(params.userName).then((user) => {
+      setTheUser(user);
     });
-  }, [props.user.id]);
+  }, [params.userName]);
 
+  if (!theUser) return null;
   return (
     <div>
-      <h1>
-        {props.user.first_name} {props.user.surname}
-      </h1>
-      <p>Posts by {props.user.first_name}:</p>
-      <ul>
-        {postsByUser.map((post) => (
-          <UserPost key={post.id} content={post.content}></UserPost>
-        ))}
-      </ul>
+      <h1>{theUser[0].first_name}</h1>
+      <p>Posts by:</p>
+      <ul></ul>
     </div>
   );
 };
