@@ -3,11 +3,11 @@ const userPostsRouter = express.Router();
 const {
   createUserPost,
   returnAllUserPosts,
-  //returnAllPostsByUser,
+  returnAllPostsByUser,
 } = require("../controllers/userPosts.controller");
 
 userPostsRouter.get("/", returnAllUserPosts);
 userPostsRouter.post("/", createUserPost);
-// userPostsRouter.get("/:userId", returnAllPostsByUser);
+userPostsRouter.get("/:userId", returnAllPostsByUser);
 
 module.exports = userPostsRouter;

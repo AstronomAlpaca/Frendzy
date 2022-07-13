@@ -15,8 +15,8 @@ const getAll = () => {
   return request.then((response) => response.data); //review arrow functions shorthand
 };
 
-const getPostsByUser = (userId) => {
-  const request = axios.get(`${baseUrl}/${userId}`);
+const getPostsByUser = (id) => {
+  const request = axios.get(`${baseUrl}/${id}`);
   return request.then((response) => response.data);
 };
 

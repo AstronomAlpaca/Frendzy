@@ -17,14 +17,14 @@ const returnAllUserPosts = async (req, res) => {
   res.json(userPosts);
 };
 
-// Redundant - see user controller instead
-// const returnAllPostsByUser = async (req, res) => {
-//   // see the route for userPosts /:userId -> the name matters
-//   const userId = req.params.userId;
-//   const userPostsByUser = await UserPost.find({ user: userId });
+// Definitely NOT redundant - the user model only holds ID of the posts
+const returnAllPostsByUser = async (req, res) => {
+  // see the route for userPosts /:userId -> the name matters
+  const userId = req.params.userId;
+  const userPostsByUser = await UserPost.find({ user: userId });
 
-//   res.json(userPostsByUser);
-// };
+  res.json(userPostsByUser);
+};
 
 const createUserPost = async (req, res, next) => {
   const body = req.body;
@@ -55,5 +55,5 @@ const createUserPost = async (req, res, next) => {
 module.exports = {
   createUserPost,
   returnAllUserPosts,
-  //returnAllPostsByUser,
+  returnAllPostsByUser,
 };
