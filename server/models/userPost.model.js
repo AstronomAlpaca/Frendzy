@@ -6,7 +6,9 @@ const UserPostSchema = new Schema({
   content: { type: String, required: true },
   date: { type: Date },
   user: {
-    type: Schema.Types.ObjectId,
+    // Not sure if this is safe to be a string or if it
+    // strictly needs to be ObjectID. However it's fixing a Front-End error
+    type: Schema.Types.String,
     ref: "User",
   },
 });
