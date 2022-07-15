@@ -5,6 +5,7 @@ import LoginForm from "./components/LoginForm/LoginForm";
 // import UserPost from "./components/UserPost/UserPost";
 import loginService from "./services/login";
 import userPostService from "./services/userPosts";
+import friendService from "./services/friends";
 
 import Dashboard from "./views/Dashboard/Dashboard";
 import UserProfile from "./views/UserProfile/UserProfile";
@@ -47,7 +48,9 @@ const App = () => {
       // Saving to localStorage will prevent the app from re-rendering
       // and losing login data
       window.localStorage.setItem("loggedAppUser", JSON.stringify(user));
+      // need to set token here in all services, so that app knows it is the auth user who sent a request or action
       userPostService.setToken(user.token);
+      friendService.setToken(user.token);
       setUser(user);
       setusername("");
       setPassword("");

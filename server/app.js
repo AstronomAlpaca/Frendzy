@@ -4,6 +4,7 @@ const app = express();
 const cors = require("cors");
 const usersRouter = require("./routes/users.route");
 const userPostsRouter = require("./routes/userPosts.route");
+const friendsRouter = require("./routes/friends.route");
 const middleware = require("./utils/middleware");
 const logger = require("./utils/logger");
 const mongoose = require("mongoose");
@@ -29,6 +30,7 @@ app.use(middleware.requestLogger);
 // Routes
 app.use("/api/users", usersRouter);
 app.use("/api/userPosts", userPostsRouter);
+app.use("/api/friends", friendsRouter);
 
 // Special Middleware - must come after Routes
 app.use(middleware.unknownEndpoint);

@@ -3,10 +3,12 @@ import { useParams } from "react-router-dom";
 import UserPost from "../../components/UserPost/UserPost";
 import userService from "../../services/users";
 import userPostService from "../../services/userPosts";
+import friendService from "../../services/friends";
 
 const UserProfile = () => {
   const [theUser, setTheUser] = useState([{}]);
   const [postsByUser, setPostsByUser] = useState([]);
+  const [friendStatus, setFriendStatus] = useState(0); // auth user should not see this on their own profile
   const params = useParams();
 
   // Had trouble here. Seems I needed to use [{}]. TODO Look more into destructuring
@@ -29,12 +31,17 @@ const UserProfile = () => {
     }
   }, [id]);
 
+  const handleSendRequest = () => {
+    friendService.sendFriendRequest(id);
+  };
+
   if (!theUser) return null;
   return (
     <div>
       <h1>
         {first_name} {surname}
       </h1>
+      <button onClick={handleSendRequest}>{friendStatus}</button>
       <p>Posts by {first_name}:</p>
       <ul>
         {postsByUser.map((post) => (
