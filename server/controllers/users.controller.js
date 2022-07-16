@@ -45,9 +45,7 @@ const userLogin = async (req, res) => {
     id: user._id,
   };
 
-  const token = jwt.sign(userForToken, process.env.SECRET, {
-    expiresIn: 60 * 60, // Problems of Token-based auth
-  });
+  const token = jwt.sign(userForToken, process.env.SECRET);
 
   res.status(200).send({
     token,

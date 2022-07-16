@@ -16,7 +16,6 @@ const sendFriendRequest = async (req, res, next) => {
   //const body = req.body;
   //dupe from userPosts controller
   const token = getTokenFrom(req);
-  console.log("token: ", token);
   // The object decoded from the token contains the username and user id fields,
   // which tells the server who made the request. See userLogin() for details
   const decodedToken = jwt.verify(token, process.env.SECRET);
@@ -27,10 +26,11 @@ const sendFriendRequest = async (req, res, next) => {
   //userA is the requester (authorised user)
   const userA = await User.findById(decodedToken.id);
   //userB will be the recipient, received from frontend
-  const userB = req.body;
+  const userB = await User.findById(req.body.data.id);
 
   console.log("userA: ", userA);
   console.log("userB: ", userB);
+  // console.log("request body: ", req.body.data.id);
 
   //   const docA = await Friends.findOneAndUpdate(
   //     {

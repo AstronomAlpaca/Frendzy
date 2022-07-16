@@ -30,12 +30,15 @@ const App = () => {
   // Here the app checks if user details of a logged-in user
   // can already be found on local storage. If true,
   // details are saved to app state and to the service.
+
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedAppUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
+      // try figure out why the 2 lines below are needed if it's already in handleLogin
       userPostService.setToken(user.token);
+      friendService.setToken(user.token); // this wasn't here before, this is why the token was null!!!!!!!!!!!!!!!!!!!
     }
   }, []);
 

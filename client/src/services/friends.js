@@ -12,15 +12,15 @@ const setToken = (newToken) => {
   token = `bearer ${newToken}`;
 };
 
-const sendFriendRequest = async () => {
-  //   const config = {
-  //     headers: { Authorization: token },
-  //   };
+const sendFriendRequest = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  };
 
   console.log("sendFriendRequest token: ", token);
 
-  //const response = await axios.post(baseUrl, config);
-  //return response.data;
+  const response = await axios.post(baseUrl, { data: { id: id } }, config);
+  return response.data;
 };
 
 export default { sendFriendRequest, setToken };
