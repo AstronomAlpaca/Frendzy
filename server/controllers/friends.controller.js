@@ -13,7 +13,6 @@ const getTokenFrom = (req) => {
 };
 
 const sendFriendRequest = async (req, res, next) => {
-  //const body = req.body;
   //dupe from userPosts controller
   const token = getTokenFrom(req);
   // The object decoded from the token contains the username and user id fields,
@@ -28,41 +27,46 @@ const sendFriendRequest = async (req, res, next) => {
   //userB will be the recipient, received from frontend
   const userB = await User.findById(req.body.data.id);
 
-  console.log("userA: ", userA);
-  console.log("userB: ", userB);
+  //console.log("userA: ", userA);
+  //console.log("userB: ", userB);
   // console.log("request body: ", req.body.data.id);
 
-  //   const docA = await Friends.findOneAndUpdate(
-  //     {
-  //       requester: userA,
-  //       recipient: userB,
-  //     },
-  //     {
-  //       $set: { status: 1 }, // requested, from userB perspective
-  //     },
-  //     {
-  //       upsert: true,
-  //       new: true,
-  //     }
-  //   );
-  //   const docB = await Friends.findOneAndUpdate(
-  //     {
-  //       recipient: userA,
-  //       requester: userB,
-  //     },
-  //     {
-  //       $set: { status: 2 }, // pending, from userA perspective
-  //     },
-  //     { upsert: true, new: true }
-  //   );
-  //   const updateUserA = await User.findOneAndUpdate(
-  //     { _id: userA },
-  //     { $push: { friends: docA._id } }
-  //   );
-  //   const updateUserB = await User.findOneAndUpdate(
-  //     { _id: userB },
-  //     { $push: { friends: docB._id } }
-  //   );
+  const docA = await Friends.findOneAndUpdate(
+    {
+      requester: userA,
+      recipient: userB,
+    },
+    {
+      $set: { status: 1 }, // requested, from userB perspective
+    },
+    {
+      upsert: true,
+      new: true,
+    }
+  );
+  const docB = await Friends.findOneAndUpdate(
+    {
+      recipient: userA,
+      requester: userB,
+    },
+    {
+      $set: { status: 2 }, // pending, from userA perspective
+    },
+    { upsert: true, new: true }
+  );
+  const updateUserA = await User.findOneAndUpdate(
+    { _id: userA },
+    { $push: { friends: docA._id } }
+  );
+  const updateUserB = await User.findOneAndUpdate(
+    { _id: userB },
+    { $push: { friends: docB._id } }
+  );
+
+  // console.log(docA);
+  // console.log(docB);
+
+  res.json([docA, docB]);
 };
 
 module.exports = {

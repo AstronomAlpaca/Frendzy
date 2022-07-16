@@ -17,8 +17,6 @@ const sendFriendRequest = async (id) => {
     headers: { Authorization: token },
   };
 
-  console.log("sendFriendRequest token: ", token);
-
   const response = await axios.post(baseUrl, { data: { id: id } }, config);
   return response.data;
 };

@@ -16,8 +16,6 @@ const getAll = () => {
 };
 
 const getPostsByUser = (id) => {
-  console.log("getPostsByUser token: ", token);
-
   const request = axios.get(`${baseUrl}/${id}`);
   return request.then((response) => response.data);
 };

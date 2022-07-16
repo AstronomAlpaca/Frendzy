@@ -36,7 +36,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
-      // try figure out why the 2 lines below are needed if it's already in handleLogin
+      // this whole function is just checking if there's an auth token, if so, set it to the services
       userPostService.setToken(user.token);
       friendService.setToken(user.token); // this wasn't here before, this is why the token was null!!!!!!!!!!!!!!!!!!!
     }
