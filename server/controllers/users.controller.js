@@ -66,8 +66,8 @@ const returnAllUsers = async (req, res) => {
 };
 
 const returnSingleUser = async (req, res) => {
-  const userName = req.params.userName;
-  const theUser = await User.find({ username: userName });
+  const userId = req.params.userId;
+  const theUser = await User.find({ _id: userId });
 
   res.json(theUser);
 };

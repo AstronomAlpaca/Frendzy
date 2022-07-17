@@ -75,7 +75,7 @@ const App = () => {
             <Link style={padding} to="/">
               Home
             </Link>
-            <Link style={padding} to={`/${user.username}`}>
+            <Link style={padding} to={`/${user.id}`}>
               {user.first_name} {user.surname}
             </Link>
             <Link style={padding} to={"/notifications"}>
@@ -89,7 +89,7 @@ const App = () => {
             {/* 
             change to userId instead and workaround the bugs / display user's name in browser bar
              */}
-            <Route path={`/:userName`} element={<UserProfile />}></Route>
+            <Route path={`/:userId`} element={<UserProfile />}></Route>
             <Route
               path={"/notifications"}
               element={<Notifications userData={user} />}

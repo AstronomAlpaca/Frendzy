@@ -9,7 +9,7 @@ const {
 
 usersRouter.get("/", returnAllUsers);
 //@todo change to userId instead
-usersRouter.get("/:userName", returnSingleUser);
+usersRouter.get("/:userId", returnSingleUser);
 usersRouter.post("/login", userLogin);
 usersRouter.post("/register", createUser);
 

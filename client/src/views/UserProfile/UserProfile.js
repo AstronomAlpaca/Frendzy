@@ -19,10 +19,10 @@ const UserProfile = () => {
   const [{ first_name, surname, id }] = theUser;
 
   useEffect(() => {
-    userService.getUser(params.userName).then((user) => {
+    userService.getUser(params.userId).then((user) => {
       setTheUser(user);
     });
-  }, [params.userName]);
+  }, [params.userId]);
 
   // Gets posts and friends of theUser
   useEffect(() => {
