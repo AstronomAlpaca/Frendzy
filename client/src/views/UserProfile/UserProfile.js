@@ -49,6 +49,9 @@ const UserProfile = () => {
   };
 
   // @todo map entire friends db and filter different statuses for different tabs (friendlist, received requests, sent requests)
+  const filteredFriends = friendsOfUser.filter((friend) => {
+    return friend.status === 3;
+  });
 
   if (!theUser) return null;
   return (
@@ -69,7 +72,7 @@ const UserProfile = () => {
       </ul>
       <p>{first_name}'s Friends:</p>
       <ul>
-        {friendsOfUser.map((friend) => (
+        {filteredFriends.map((friend) => (
           // @todo using recipient in showFriends controller function,
           // so use requester here to show other party
           // should work on both sides. review

@@ -16,7 +16,7 @@ const showFriends = async (req, res) => {
   const userId = req.params.userId;
   const theirFriends = await Friends.find({
     recipient: userId,
-    status: 3,
+    // status: 3,
   });
 
   res.json(theirFriends);
