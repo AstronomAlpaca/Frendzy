@@ -10,6 +10,13 @@ const setToken = (newToken) => {
   token = `bearer ${newToken}`;
 };
 
+const showReceivedFriendRequests = async (id) => {
+  const response = await axios.get(`${baseUrl}/receivedFriendReqs/${id}`);
+  return response.data;
+};
+
+//@todo showFriends status 3 UserProfile
+
 const sendFriendRequest = async (id) => {
   const config = {
     headers: { Authorization: token },
@@ -23,9 +30,16 @@ const sendFriendRequest = async (id) => {
   return response.data;
 };
 
-const showReceivedFriendRequests = async (id) => {
-  const response = await axios.get(`${baseUrl}/receivedFriendReqs/${id}`);
+const acceptFriendRequest = async (requester, recipient) => {
+  const response = await axios.post(`${baseUrl}/acceptReq`, {
+    data: { requester: requester, recipient: recipient },
+  });
   return response.data;
 };
 
-export default { sendFriendRequest, showReceivedFriendRequests, setToken };
+export default {
+  sendFriendRequest,
+  showReceivedFriendRequests,
+  acceptFriendRequest,
+  setToken,
+};

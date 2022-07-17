@@ -61,6 +61,7 @@ const sendFriendRequest = async (req, res, next) => {
     { upsert: true, new: true }
   );
   //may not need these two functions below (why add them to friendlist if they have not accepted?)
+  //@todo may also need to add the validation here to prevent duplicates
   const updateUserA = await User.findOneAndUpdate(
     { _id: userA },
     { $push: { friends: docA._id } }
@@ -73,7 +74,40 @@ const sendFriendRequest = async (req, res, next) => {
   res.json(docB);
 };
 
+const acceptFriendRequest = async (req, res, next) => {
+  const userA = req.body.data.requester;
+  const userB = req.body.data.recipient;
+  // does not change status if 'await' keyword is not used
+  await Friends.findOneAndUpdate(
+    {
+      requester: userA,
+      recipient: userB,
+    },
+    {
+      $set: { status: 3 },
+    }
+  );
+
+  await Friends.findOneAndUpdate(
+    {
+      recipient: userA,
+      requester: userB,
+    },
+    {
+      $set: { status: 3 },
+    }
+  );
+
+  //@todo send some kind of confirmation to requester, somehow
+  // (if friends array in model DB has grown, do something)
+  res.send("ok");
+};
+
+const rejectFriendRequest = async (req, res, next) => {};
+
 module.exports = {
   showReceivedFriendRequests,
   sendFriendRequest,
+  acceptFriendRequest,
+  rejectFriendRequest,
 };

@@ -8,6 +8,7 @@ const {
 } = require("../controllers/users.controller");
 
 usersRouter.get("/", returnAllUsers);
+//@todo change to userId instead
 usersRouter.get("/:userName", returnSingleUser);
 usersRouter.post("/login", userLogin);
 usersRouter.post("/register", createUser);

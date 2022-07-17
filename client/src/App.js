@@ -86,6 +86,9 @@ const App = () => {
 
           <Routes>
             <Route path="/" element={<Dashboard />}></Route>
+            {/* 
+            change to userId instead and workaround the bugs / display user's name in browser bar
+             */}
             <Route path={`/:userName`} element={<UserProfile />}></Route>
             <Route
               path={"/notifications"}

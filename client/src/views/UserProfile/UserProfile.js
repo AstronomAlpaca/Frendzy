@@ -40,9 +40,7 @@ const UserProfile = () => {
     });
   };
 
-  // map entire friends db and filter different statuses for different tabs (friendlist, received requests, sent requests)
-
-  // research computed properties
+  // @todo map entire friends db and filter different statuses for different tabs (friendlist, received requests, sent requests)
 
   if (!theUser) return null;
   return (
