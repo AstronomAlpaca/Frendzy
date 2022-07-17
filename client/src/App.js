@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 
 import LoginForm from "./components/LoginForm/LoginForm";
+import UserPostForm from "./components/UserPostForm/UserPostForm"; //text
 
 import loginService from "./services/login";
 import userPostService from "./services/userPosts";
@@ -12,6 +13,7 @@ import UserProfile from "./views/UserProfile/UserProfile";
 import Notifications from "./views/Notifications/Notifications";
 
 const App = () => {
+  const [userPosts, setUserPosts] = useState([]); //test
   const [username, setusername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
@@ -55,6 +57,13 @@ const App = () => {
     }
   };
 
+  const addUserPost = (postObject) => {
+    //test
+    userPostService.create(postObject).then((returnedUserPost) => {
+      setUserPosts(userPosts.concat(returnedUserPost));
+    });
+  };
+
   const padding = {
     padding: 5,
   };
@@ -95,6 +104,7 @@ const App = () => {
               element={<Notifications userData={user} />}
             ></Route>
           </Routes>
+          <UserPostForm createPost={addUserPost}></UserPostForm>
         </div>
       )}
     </div>

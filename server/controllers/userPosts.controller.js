@@ -11,11 +11,11 @@ const getTokenFrom = (req) => {
   return null;
 };
 
-const returnAllUserPosts = async (req, res) => {
-  const userPosts = await UserPost.find({}).populate("user", { username: 1 });
+// const returnAllUserPosts = async (req, res) => {
+//   const userPosts = await UserPost.find({}).populate("user", { username: 1 });
 
-  res.json(userPosts);
-};
+//   res.json(userPosts);
+// };
 
 // Definitely NOT redundant - the user model only holds ID of the posts
 const returnAllPostsByUser = async (req, res) => {
@@ -54,6 +54,6 @@ const createUserPost = async (req, res, next) => {
 
 module.exports = {
   createUserPost,
-  returnAllUserPosts,
+  //returnAllUserPosts,
   returnAllPostsByUser,
 };

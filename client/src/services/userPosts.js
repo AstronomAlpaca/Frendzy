@@ -10,10 +10,10 @@ const setToken = (newToken) => {
 };
 
 // Literally useless for now
-const getAll = () => {
-  const request = axios.get(baseUrl);
-  return request.then((response) => response.data); //review arrow functions shorthand
-};
+// const getAll = () => {
+//   const request = axios.get(baseUrl);
+//   return request.then((response) => response.data); //review arrow functions shorthand
+// };
 
 const getPostsByUser = (id) => {
   const request = axios.get(`${baseUrl}/${id}`);
@@ -35,4 +35,9 @@ const create = async (newObject) => {
 //   return request.then((response) => response.data);
 // };
 
-export default { getAll, getPostsByUser, create, setToken };
+export default {
+  //getAll,
+  getPostsByUser,
+  create,
+  setToken,
+};

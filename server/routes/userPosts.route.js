@@ -2,11 +2,11 @@ const express = require("express");
 const userPostsRouter = express.Router();
 const {
   createUserPost,
-  returnAllUserPosts,
+  //returnAllUserPosts,
   returnAllPostsByUser,
 } = require("../controllers/userPosts.controller");
 
-userPostsRouter.get("/", returnAllUserPosts);
+//userPostsRouter.get("/", returnAllUserPosts);
 userPostsRouter.post("/", createUserPost);
 userPostsRouter.get("/:userId", returnAllPostsByUser);
 

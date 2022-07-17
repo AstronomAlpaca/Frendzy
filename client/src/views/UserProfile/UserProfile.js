@@ -10,13 +10,12 @@ import friendService from "../../services/friends";
 
 const UserProfile = () => {
   const [theUser, setTheUser] = useState([{}]);
-  const [postsByUser, setPostsByUser] = useState([]);
   const [friendStatus, setFriendStatus] = useState(0); // @todo auth user should not see this on their own profile. pass userData from App.js to here and use as prop, conditonal render
   const [friendsOfUser, setFriendsOfUser] = useState([]);
   const params = useParams();
 
   // Had trouble here. Seems I needed to use [{}]. TODO Look more into destructuring
-  const [{ first_name, surname, id }] = theUser;
+  const [{ first_name, surname, id, userPosts }] = theUser;
 
   useEffect(() => {
     userService.getUser(params.userId).then((user) => {
@@ -24,15 +23,15 @@ const UserProfile = () => {
     });
   }, [params.userId]);
 
-  // Gets posts and friends of theUser
+  // Gets friends of theUser
   useEffect(() => {
     // Backend was throwing castErrors. Apparently "id" here was undefined.
     // Makes sense to check that id exists before making this async call.
     // Give the other async call time to set state and create id.
     if (id) {
-      userPostService.getPostsByUser(id).then((posts) => {
-        setPostsByUser(posts);
-      });
+      // userPostService.getPostsByUser(id).then((posts) => {
+      //   setPostsByUser(posts);
+      // });
       //@todo could potentially just use friends from theUser state instead - review
       friendService.showFriends(id).then((friendList) => {
         setFriendsOfUser(friendList);
@@ -66,7 +65,7 @@ const UserProfile = () => {
       <button onClick={handleSendRequest}>{friendStatus}</button>
       <p>Posts by {first_name}:</p>
       <ul>
-        {postsByUser.map((post) => (
+        {userPosts.map((post) => (
           <UserPost key={post.id} content={post.content}></UserPost>
         ))}
       </ul>

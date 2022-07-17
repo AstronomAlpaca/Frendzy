@@ -56,25 +56,18 @@ const userLogin = async (req, res) => {
   });
 };
 
-const returnAllUsers = async (req, res) => {
-  const users = await User.find({}).populate("userPosts", {
+const returnSingleUser = async (req, res) => {
+  const userId = req.params.userId;
+  const theUser = await User.find({ _id: userId }).populate("userPosts", {
     content: 1,
     date: 1,
   });
-
-  res.json(users);
-};
-
-const returnSingleUser = async (req, res) => {
-  const userId = req.params.userId;
-  const theUser = await User.find({ _id: userId });
 
   res.json(theUser);
 };
 
 module.exports = {
   createUser,
-  returnAllUsers,
   returnSingleUser,
   userLogin,
 };
