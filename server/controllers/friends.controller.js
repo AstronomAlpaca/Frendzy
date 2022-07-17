@@ -12,6 +12,16 @@ const getTokenFrom = (req) => {
   return null;
 };
 
+const showFriends = async (req, res) => {
+  const userId = req.params.userId;
+  const theirFriends = await Friends.find({
+    recipient: userId,
+    status: 3,
+  });
+
+  res.json(theirFriends);
+};
+
 const showReceivedFriendRequests = async (req, res) => {
   const userId = req.params.userId;
   const recReqs = await Friends.find({
@@ -60,7 +70,7 @@ const sendFriendRequest = async (req, res, next) => {
     },
     { upsert: true, new: true }
   );
-  //may not need these two functions below (why add them to friendlist if they have not accepted?)
+  //I think these two are here just incase the request gets rejected, otherwise there's no way of handling it
   //@todo may also need to add the validation here to prevent duplicates
   const updateUserA = await User.findOneAndUpdate(
     { _id: userA },
@@ -131,6 +141,7 @@ const rejectFriendRequest = async (req, res, next) => {
 };
 
 module.exports = {
+  showFriends,
   showReceivedFriendRequests,
   sendFriendRequest,
   acceptFriendRequest,

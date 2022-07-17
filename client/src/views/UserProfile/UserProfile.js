@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+
 import UserPost from "../../components/UserPost/UserPost";
+
 import userService from "../../services/users";
 import userPostService from "../../services/userPosts";
 import friendService from "../../services/friends";
@@ -9,7 +11,8 @@ import friendService from "../../services/friends";
 const UserProfile = () => {
   const [theUser, setTheUser] = useState([{}]);
   const [postsByUser, setPostsByUser] = useState([]);
-  const [friendStatus, setFriendStatus] = useState(0); // auth user should not see this on their own profile
+  const [friendStatus, setFriendStatus] = useState(0); // @todo auth user should not see this on their own profile. pass userData from App.js to here and use as prop, conditonal render
+  const [friendsOfUser, setFriendsOfUser] = useState([]);
   const params = useParams();
 
   // Had trouble here. Seems I needed to use [{}]. TODO Look more into destructuring
@@ -21,6 +24,7 @@ const UserProfile = () => {
     });
   }, [params.userName]);
 
+  // Gets posts and friends of theUser
   useEffect(() => {
     // Backend was throwing castErrors. Apparently "id" here was undefined.
     // Makes sense to check that id exists before making this async call.
@@ -29,13 +33,17 @@ const UserProfile = () => {
       userPostService.getPostsByUser(id).then((posts) => {
         setPostsByUser(posts);
       });
+      //@todo could potentially just use friends from theUser state instead - review
+      friendService.showFriends(id).then((friendList) => {
+        setFriendsOfUser(friendList);
+      });
     }
   }, [id]);
 
   const handleSendRequest = () => {
     friendService.sendFriendRequest(id).then((response) => {
       setFriendStatus(response.status);
-      // state needs to be persistent. it is resetting back to 0 on refresh.
+      // @todo state needs to be persistent. it is resetting back to 0 on refresh.
       // see comment below at button onClick
     });
   };
@@ -49,7 +57,7 @@ const UserProfile = () => {
         {first_name} {surname}
       </h1>
       {/* 
-      when clicked, just change inner text on front end while
+      @todo when clicked, just change inner text on front end while
       fetching actual status from backend, then update with backend data
       */}
       <button onClick={handleSendRequest}>{friendStatus}</button>
@@ -57,6 +65,15 @@ const UserProfile = () => {
       <ul>
         {postsByUser.map((post) => (
           <UserPost key={post.id} content={post.content}></UserPost>
+        ))}
+      </ul>
+      <p>{first_name}'s Friends:</p>
+      <ul>
+        {friendsOfUser.map((friend) => (
+          // @todo using recipient in showFriends controller function,
+          // so use requester here to show other party
+          // should work on both sides. review
+          <li key={friend.requester}>{friend.requester}</li>
         ))}
       </ul>
     </div>

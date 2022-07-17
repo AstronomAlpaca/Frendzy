@@ -15,7 +15,10 @@ const showReceivedFriendRequests = async (id) => {
   return response.data;
 };
 
-//@todo showFriends status 3 UserProfile
+const showFriends = async (id) => {
+  const response = await axios.get(`${baseUrl}/${id}`);
+  return response.data;
+};
 
 const sendFriendRequest = async (id) => {
   const config = {
@@ -47,6 +50,7 @@ const rejectFriendRequest = async (requester, recipient) => {
 
 export default {
   sendFriendRequest,
+  showFriends,
   showReceivedFriendRequests,
   acceptFriendRequest,
   rejectFriendRequest,
