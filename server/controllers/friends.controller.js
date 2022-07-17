@@ -16,18 +16,20 @@ const showFriends = async (req, res) => {
   const userId = req.params.userId;
   const theirFriends = await Friends.find({
     recipient: userId,
-    // status: 3,
-  });
+    //populate with requester, because the model is being searched for
+    //by the recipient id. this should work properly for both users on frontend
+  }).populate("requester", { first_name: 1, surname: 1, username: 1 });
 
   res.json(theirFriends);
 };
 
+//@todo may need to populate with requester in other to show name
 const showReceivedFriendRequests = async (req, res) => {
   const userId = req.params.userId;
   const recReqs = await Friends.find({
     recipient: userId,
     status: 1,
-  });
+  }).populate("requester", { first_name: 1, surname: 1, username: 1 });
 
   res.json(recReqs);
 };

@@ -24,7 +24,10 @@ const Notifications = (props) => {
           <ReceivedFriendRequest
             key={request._id}
             recipient={request.recipient}
-            requester={request.requester}
+            requester={request.requester.id}
+            first_name={request.requester.first_name}
+            surname={request.requester.surname}
+            username={request.requester.username}
           ></ReceivedFriendRequest>
         ))}
       </ul>

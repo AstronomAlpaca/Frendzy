@@ -74,8 +74,10 @@ const UserProfile = () => {
           // @todo using recipient in showFriends controller function,
           // so use requester here to show other party
           // should work on both sides. review
-          <Link key={friend._id} to={`/${friend.requester}`}>
-            <li>{friend.requester}</li>
+          <Link key={friend._id} to={`/${friend.requester.id}`}>
+            <li>
+              {friend.requester.first_name} {friend.requester.surname}
+            </li>
           </Link>
         ))}
       </ul>

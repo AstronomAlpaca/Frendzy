@@ -11,7 +11,8 @@ const ReceivedFriendRequest = (props) => {
 
   return (
     <li>
-      {props.requester} sent you a friend request.
+      {props.first_name} {props.surname} ({props.username}) sent you a friend
+      request.
       {/* 
       @todo when either button is clicked, hide request (maybe change state of parent [notifications view])
        */}
