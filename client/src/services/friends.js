@@ -5,8 +5,6 @@ const baseUrl = "http://localhost:9000/api/friends/friendReq";
 //dupe from userPosts service
 let token = null;
 
-// let token = JSON.parse(window.localStorage.getItem("loggedAppUser"));
-
 //dupe from userPosts service
 const setToken = (newToken) => {
   token = `bearer ${newToken}`;

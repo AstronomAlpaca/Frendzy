@@ -33,8 +33,14 @@ const UserProfile = () => {
   }, [id]);
 
   const handleSendRequest = () => {
-    friendService.sendFriendRequest(id);
+    friendService.sendFriendRequest(id).then((response) => {
+      setFriendStatus(response.status);
+    });
   };
+
+  // map entire friends db and filter different statuses for different tabs (friendlist, received requests, sent requests)
+
+  // research computed properties
 
   if (!theUser) return null;
   return (
@@ -42,6 +48,10 @@ const UserProfile = () => {
       <h1>
         {first_name} {surname}
       </h1>
+      {/* 
+      when clicked, just change inner text on front end while
+      fetching actual status from backend, then update with backend data
+      */}
       <button onClick={handleSendRequest}>{friendStatus}</button>
       <p>Posts by {first_name}:</p>
       <ul>

@@ -17,3 +17,8 @@ const FriendsSchema = new Schema({
 });
 
 module.exports = mongoose.model("Friends", FriendsSchema);
+
+// make new view for userB to see new notifications of friend requests
+// get all records from db of friends table (depending on userID, route to view, friends controller)
+// return all records matching this user ID
+// @todo

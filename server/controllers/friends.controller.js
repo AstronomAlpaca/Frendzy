@@ -66,7 +66,7 @@ const sendFriendRequest = async (req, res, next) => {
   // console.log(docA);
   // console.log(docB);
 
-  res.json([docA, docB]);
+  res.json(docB);
 };
 
 module.exports = {
