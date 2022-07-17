@@ -16,6 +16,8 @@ const FriendsSchema = new Schema({
   },
 });
 
+//@todo document transform remove _v, etc
+
 module.exports = mongoose.model("Friends", FriendsSchema);
 
 // make new view for userB to see new notifications of friend requests

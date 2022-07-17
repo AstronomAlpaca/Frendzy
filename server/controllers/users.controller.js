@@ -65,6 +65,8 @@ const returnAllUsers = async (req, res) => {
   res.json(users);
 };
 
+//@todo may need this for showing who sent a friend req (in notifications)
+//recipient's perspective
 const returnSingleUser = async (req, res) => {
   const userName = req.params.userName;
   const theUser = await User.find({ username: userName });

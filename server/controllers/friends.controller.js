@@ -12,6 +12,16 @@ const getTokenFrom = (req) => {
   return null;
 };
 
+const showReceivedFriendRequests = async (req, res) => {
+  const userId = req.params.userId;
+  const recReqs = await Friends.find({
+    recipient: userId,
+    status: 1,
+  });
+
+  res.json(recReqs);
+};
+
 const sendFriendRequest = async (req, res, next) => {
   //dupe from userPosts controller
   const token = getTokenFrom(req);
@@ -26,10 +36,6 @@ const sendFriendRequest = async (req, res, next) => {
   const userA = await User.findById(decodedToken.id);
   //userB will be the recipient, received from frontend
   const userB = await User.findById(req.body.data.id);
-
-  //console.log("userA: ", userA);
-  //console.log("userB: ", userB);
-  // console.log("request body: ", req.body.data.id);
 
   const docA = await Friends.findOneAndUpdate(
     {
@@ -54,6 +60,7 @@ const sendFriendRequest = async (req, res, next) => {
     },
     { upsert: true, new: true }
   );
+  //may not need these two functions below (why add them to friendlist if they have not accepted?)
   const updateUserA = await User.findOneAndUpdate(
     { _id: userA },
     { $push: { friends: docA._id } }
@@ -63,12 +70,10 @@ const sendFriendRequest = async (req, res, next) => {
     { $push: { friends: docB._id } }
   );
 
-  // console.log(docA);
-  // console.log(docB);
-
   res.json(docB);
 };
 
 module.exports = {
+  showReceivedFriendRequests,
   sendFriendRequest,
 };

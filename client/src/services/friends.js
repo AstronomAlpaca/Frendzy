@@ -1,6 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import axios from "axios";
-const baseUrl = "http://localhost:9000/api/friends/friendReq";
+const baseUrl = "http://localhost:9000/api/friends";
 
 //dupe from userPosts service
 let token = null;
@@ -15,8 +15,17 @@ const sendFriendRequest = async (id) => {
     headers: { Authorization: token },
   };
 
-  const response = await axios.post(baseUrl, { data: { id: id } }, config);
+  const response = await axios.post(
+    `${baseUrl}/friendReq`,
+    { data: { id: id } },
+    config
+  );
   return response.data;
 };
 
-export default { sendFriendRequest, setToken };
+const showReceivedFriendRequests = async (id) => {
+  const response = await axios.get(`${baseUrl}/receivedFriendReqs/${id}`);
+  return response.data;
+};
+
+export default { sendFriendRequest, showReceivedFriendRequests, setToken };

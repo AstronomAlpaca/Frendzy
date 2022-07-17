@@ -35,6 +35,8 @@ const UserProfile = () => {
   const handleSendRequest = () => {
     friendService.sendFriendRequest(id).then((response) => {
       setFriendStatus(response.status);
+      // state needs to be persistent. it is resetting back to 0 on refresh.
+      // see comment below at button onClick
     });
   };
 
