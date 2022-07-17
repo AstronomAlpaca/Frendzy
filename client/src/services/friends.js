@@ -30,8 +30,16 @@ const sendFriendRequest = async (id) => {
   return response.data;
 };
 
+//@todo some duplication here. refactor somehow
 const acceptFriendRequest = async (requester, recipient) => {
   const response = await axios.post(`${baseUrl}/acceptReq`, {
+    data: { requester: requester, recipient: recipient },
+  });
+  return response.data;
+};
+
+const rejectFriendRequest = async (requester, recipient) => {
+  const response = await axios.post(`${baseUrl}/rejectReq`, {
     data: { requester: requester, recipient: recipient },
   });
   return response.data;
@@ -41,5 +49,6 @@ export default {
   sendFriendRequest,
   showReceivedFriendRequests,
   acceptFriendRequest,
+  rejectFriendRequest,
   setToken,
 };

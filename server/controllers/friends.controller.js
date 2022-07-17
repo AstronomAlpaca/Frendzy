@@ -74,6 +74,7 @@ const sendFriendRequest = async (req, res, next) => {
   res.json(docB);
 };
 
+//@todo some duplication here. refactor somehow
 const acceptFriendRequest = async (req, res, next) => {
   const userA = req.body.data.requester;
   const userB = req.body.data.recipient;
@@ -103,7 +104,31 @@ const acceptFriendRequest = async (req, res, next) => {
   res.send("ok");
 };
 
-const rejectFriendRequest = async (req, res, next) => {};
+const rejectFriendRequest = async (req, res, next) => {
+  const userA = req.body.data.requester;
+  const userB = req.body.data.recipient;
+
+  const docA = await Friends.findOneAndRemove({
+    requester: userA,
+    recipient: userB,
+  });
+
+  const docB = await Friends.findOneAndRemove({
+    recipient: userA,
+    requester: userB,
+  });
+
+  const updateUserA = await User.findOneAndUpdate(
+    { _id: userA },
+    { $pull: { friends: docA._id } }
+  );
+  const updateUserB = await User.findOneAndUpdate(
+    { _id: userB },
+    { $pull: { friends: docB._id } }
+  );
+
+  res.send("ok");
+};
 
 module.exports = {
   showReceivedFriendRequests,
