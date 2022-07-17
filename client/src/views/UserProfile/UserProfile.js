@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 import UserPost from "../../components/UserPost/UserPost";
 
@@ -73,7 +73,9 @@ const UserProfile = () => {
           // @todo using recipient in showFriends controller function,
           // so use requester here to show other party
           // should work on both sides. review
-          <li key={friend.requester}>{friend.requester}</li>
+          <Link key={friend._id} to={`/${friend.requester}`}>
+            <li>{friend.requester}</li>
+          </Link>
         ))}
       </ul>
     </div>
