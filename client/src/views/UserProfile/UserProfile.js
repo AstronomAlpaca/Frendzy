@@ -5,7 +5,6 @@ import { useParams, Link } from "react-router-dom";
 import UserPost from "../../components/UserPost/UserPost";
 
 import userService from "../../services/users";
-import userPostService from "../../services/userPosts";
 import friendService from "../../services/friends";
 
 const UserProfile = () => {
@@ -52,7 +51,7 @@ const UserProfile = () => {
     return friend.status === 3;
   });
 
-  if (!theUser) return null;
+  if (!theUser || !userPosts) return null;
   return (
     <div>
       <h1>

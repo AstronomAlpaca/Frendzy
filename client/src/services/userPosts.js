@@ -9,17 +9,6 @@ const setToken = (newToken) => {
   token = `bearer ${newToken}`;
 };
 
-// Literally useless for now
-// const getAll = () => {
-//   const request = axios.get(baseUrl);
-//   return request.then((response) => response.data); //review arrow functions shorthand
-// };
-
-const getPostsByUser = (id) => {
-  const request = axios.get(`${baseUrl}/${id}`);
-  return request.then((response) => response.data);
-};
-
 const create = async (newObject) => {
   const config = {
     headers: { Authorization: token },
@@ -36,8 +25,6 @@ const create = async (newObject) => {
 // };
 
 export default {
-  //getAll,
-  getPostsByUser,
   create,
   setToken,
 };
