@@ -20,6 +20,14 @@ const showFriends = async (id) => {
   return response.data;
 };
 
+//@todo this was not working as a get request. research it.
+const showStatus = async (authUserId, profileUserId) => {
+  const response = await axios.post(`${baseUrl}/friendStatus`, {
+    data: { authUserId: authUserId, profileUserId: profileUserId },
+  });
+  return response.data;
+};
+
 const sendFriendRequest = async (id) => {
   const config = {
     headers: { Authorization: token },
@@ -52,6 +60,7 @@ export default {
   sendFriendRequest,
   showFriends,
   showReceivedFriendRequests,
+  showStatus,
   acceptFriendRequest,
   rejectFriendRequest,
   setToken,

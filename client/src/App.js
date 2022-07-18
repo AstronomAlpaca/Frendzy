@@ -82,7 +82,10 @@ const App = () => {
 
           <Routes>
             <Route path="/" element={<Dashboard />}></Route>
-            <Route path={`/:userId`} element={<UserProfile />}></Route>
+            <Route
+              path={`/:userId`}
+              element={<UserProfile userData={user} />}
+            ></Route>
             <Route
               path={"/notifications"}
               element={<Notifications userData={user} />}

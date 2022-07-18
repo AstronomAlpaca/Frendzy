@@ -12,6 +12,18 @@ const getTokenFrom = (req) => {
   return null;
 };
 
+const showStatus = async (req, res) => {
+  const authUserId = req.body.data.authUserId;
+  const profileUserId = req.body.data.profileUserId;
+
+  const result = await Friends.find({
+    requester: authUserId,
+    recipient: profileUserId,
+  });
+
+  res.json(result[0].status);
+};
+
 const showFriends = async (req, res) => {
   const userId = req.params.userId;
   const theirFriends = await Friends.find({
@@ -88,7 +100,7 @@ const sendFriendRequest = async (req, res, next) => {
     { $push: { friends: docB._id } }
   );
 
-  res.json(docB);
+  res.send("ok");
 };
 
 //@todo some duplication here. refactor somehow
@@ -148,6 +160,7 @@ const rejectFriendRequest = async (req, res, next) => {
 };
 
 module.exports = {
+  showStatus,
   showFriends,
   showReceivedFriendRequests,
   sendFriendRequest,

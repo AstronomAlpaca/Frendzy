@@ -7,7 +7,7 @@ import UserPost from "../../components/UserPost/UserPost";
 import userService from "../../services/users";
 import friendService from "../../services/friends";
 
-const UserProfile = () => {
+const UserProfile = (props) => {
   const [theUser, setTheUser] = useState([{}]);
   const [friendStatus, setFriendStatus] = useState(0); // @todo auth user should not see this on their own profile. pass userData from App.js to here and use as prop, conditonal render
   const [friendsOfUser, setFriendsOfUser] = useState([]);
@@ -26,15 +26,18 @@ const UserProfile = () => {
       friendService.showFriends(id).then((friendList) => {
         setFriendsOfUser(friendList);
       });
+      friendService.showStatus(props.userData.id, id).then((response) => {
+        console.log(response);
+      });
     }
-  }, [id]);
+  }, [id, props.userData.id]);
+
+  //return status of friendship between authUser and profile user
 
   const handleSendRequest = () => {
-    friendService.sendFriendRequest(id).then((response) => {
-      setFriendStatus(response.status);
-      // @todo state needs to be persistent. it is resetting back to 0 on refresh.
-      // see comment below at button onClick
-    });
+    friendService.sendFriendRequest(id).then(setFriendStatus(2));
+    // @todo state needs to be persistent. it is resetting back to 0 on refresh.
+    // see comment below at button onClick
   };
 
   // @todo map entire friends db and filter different statuses for different tabs (friendlist, received requests, sent requests)
