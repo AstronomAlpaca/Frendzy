@@ -13,7 +13,6 @@ const UserProfile = () => {
   const [friendsOfUser, setFriendsOfUser] = useState([]);
   const params = useParams();
 
-  // Had trouble here. Seems I needed to use [{}]. TODO Look more into destructuring
   const [{ first_name, surname, id, userPosts }] = theUser;
 
   useEffect(() => {
@@ -22,16 +21,8 @@ const UserProfile = () => {
     });
   }, [params.userId]);
 
-  // Gets friends of theUser
   useEffect(() => {
-    // Backend was throwing castErrors. Apparently "id" here was undefined.
-    // Makes sense to check that id exists before making this async call.
-    // Give the other async call time to set state and create id.
     if (id) {
-      // userPostService.getPostsByUser(id).then((posts) => {
-      //   setPostsByUser(posts);
-      // });
-      //@todo could potentially just use friends from theUser state instead - review
       friendService.showFriends(id).then((friendList) => {
         setFriendsOfUser(friendList);
       });

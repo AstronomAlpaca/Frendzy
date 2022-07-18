@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 
 import LoginForm from "./components/LoginForm/LoginForm";
-import UserPostForm from "./components/UserPostForm/UserPostForm"; //text
+import UserPostForm from "./components/UserPostForm/UserPostForm";
 
 import loginService from "./services/login";
 import userPostService from "./services/userPosts";
@@ -13,23 +13,18 @@ import UserProfile from "./views/UserProfile/UserProfile";
 import Notifications from "./views/Notifications/Notifications";
 
 const App = () => {
-  const [userPosts, setUserPosts] = useState([]); //test
+  const [userPosts, setUserPosts] = useState([]);
   const [username, setusername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-
-  // Here the app checks if user details of a logged-in user
-  // can already be found on local storage. If true,
-  // details are saved to app state and to the service.
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedAppUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
-      // this whole function is just checking if there's an auth token, if so, set it to the services
       userPostService.setToken(user.token);
-      friendService.setToken(user.token); // this wasn't here before, this is why the token was null!!!!!!!!!!!!!!!!!!!
+      friendService.setToken(user.token);
     }
   }, []);
 
@@ -38,27 +33,19 @@ const App = () => {
 
     try {
       const user = await loginService.login({ username, password });
-
-      // Saving to localStorage will prevent the app from re-rendering
-      // and losing login data
       window.localStorage.setItem("loggedAppUser", JSON.stringify(user));
-      // need to set token here in all services, so that app knows it is the auth user who sent a request or action
       userPostService.setToken(user.token);
       friendService.setToken(user.token);
       setUser(user);
       setusername("");
       setPassword("");
     } catch (exception) {
-      // setErrorMessage - @todo
       alert("Incorrect credentials");
-      setTimeout(() => {
-        //setErrorMessage(null) - @todo
-      }, 5000);
+      setTimeout(() => {}, 5000);
     }
   };
 
   const addUserPost = (postObject) => {
-    //test
     userPostService.create(postObject).then((returnedUserPost) => {
       setUserPosts(userPosts.concat(returnedUserPost));
     });
@@ -88,23 +75,19 @@ const App = () => {
               {user.first_name} {user.surname}
             </Link>
             <Link style={padding} to={"/notifications"}>
-              {/* @todo make it reactive, show number of notifications */}
               Notifications
             </Link>
+            <UserPostForm createPost={addUserPost}></UserPostForm>
           </nav>
 
           <Routes>
             <Route path="/" element={<Dashboard />}></Route>
-            {/* 
-            change to userId instead and workaround the bugs / display user's name in browser bar
-             */}
             <Route path={`/:userId`} element={<UserProfile />}></Route>
             <Route
               path={"/notifications"}
               element={<Notifications userData={user} />}
             ></Route>
           </Routes>
-          <UserPostForm createPost={addUserPost}></UserPostForm>
         </div>
       )}
     </div>
