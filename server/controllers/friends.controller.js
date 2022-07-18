@@ -31,7 +31,12 @@ const showReceivedFriendRequests = async (req, res) => {
     status: 1,
   }).populate("requester", { first_name: 1, surname: 1, username: 1 });
 
-  res.json(recReqs);
+  //@todo sort this out
+  if (recReqs.length === 0) {
+    res.send("No new friend requests.");
+  } else {
+    res.json(recReqs);
+  }
 };
 
 const sendFriendRequest = async (req, res, next) => {
