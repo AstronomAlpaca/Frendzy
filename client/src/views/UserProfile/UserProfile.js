@@ -9,7 +9,7 @@ import friendService from "../../services/friends";
 
 const UserProfile = (props) => {
   const [theUser, setTheUser] = useState([{}]);
-  const [friendStatus, setFriendStatus] = useState(0); // @todo auth user should not see this on their own profile. pass userData from App.js to here and use as prop, conditonal render
+  const [friendStatus, setFriendStatus] = useState(""); // @todo auth user should not see this on their own profile. pass userData from App.js to here and use as prop, conditonal render
   const [friendsOfUser, setFriendsOfUser] = useState([]);
   const params = useParams();
 
@@ -26,21 +26,35 @@ const UserProfile = (props) => {
       friendService.showFriends(id).then((friendList) => {
         setFriendsOfUser(friendList);
       });
-      friendService.showStatus(props.userData.id, id).then((response) => {
-        console.log(response);
-      });
     }
+  }, [id]);
+
+  useEffect(() => {
+    if (props.userData.id !== id)
+      friendService.showStatus(props.userData.id, id).then((response) => {
+        switch (response) {
+          case 0:
+            setFriendStatus("Send friend request");
+            break;
+          case 1:
+            setFriendStatus("Pending");
+            break;
+          case 2:
+            setFriendStatus("Accept friend request");
+            break;
+          case 3:
+            setFriendStatus("Friends");
+            break;
+          default:
+            setFriendStatus("Send friend request");
+        }
+      });
   }, [id, props.userData.id]);
 
-  //return status of friendship between authUser and profile user
-
   const handleSendRequest = () => {
-    friendService.sendFriendRequest(id).then(setFriendStatus(2));
-    // @todo state needs to be persistent. it is resetting back to 0 on refresh.
-    // see comment below at button onClick
+    friendService.sendFriendRequest(id).then(setFriendStatus("Pending"));
   };
 
-  // @todo map entire friends db and filter different statuses for different tabs (friendlist, received requests, sent requests)
   const filteredFriends = friendsOfUser.filter((friend) => {
     return friend.status === 3;
   });
@@ -51,11 +65,9 @@ const UserProfile = (props) => {
       <h1>
         {first_name} {surname}
       </h1>
-      {/* 
-      @todo when clicked, just change inner text on front end while
-      fetching actual status from backend, then update with backend data
-      */}
-      <button onClick={handleSendRequest}>{friendStatus}</button>
+      {props.userData.id !== id ? (
+        <button onClick={handleSendRequest}>{friendStatus}</button>
+      ) : null}
       <p>Posts by {first_name}:</p>
       <ul>
         {userPosts.map((post) => (
@@ -65,9 +77,6 @@ const UserProfile = (props) => {
       <p>{first_name}'s Friends:</p>
       <ul>
         {filteredFriends.map((friend) => (
-          // @todo using recipient in showFriends controller function,
-          // so use requester here to show other party
-          // should work on both sides. review
           <Link key={friend._id} to={`/${friend.requester.id}`}>
             <li>
               {friend.requester.first_name} {friend.requester.surname}

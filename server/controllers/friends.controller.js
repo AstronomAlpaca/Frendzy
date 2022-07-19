@@ -21,7 +21,11 @@ const showStatus = async (req, res) => {
     recipient: profileUserId,
   });
 
-  res.json(result[0].status);
+  if (result[0]) {
+    res.json(result[0].status);
+  } else {
+    res.send("This user is not a friend.");
+  }
 };
 
 const showFriends = async (req, res) => {
